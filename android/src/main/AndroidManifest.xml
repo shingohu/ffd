@@ -1,0 +1,14 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sh.ffd">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+
+        android:networkSecurityConfig="@xml/ffd_network_security">
+
+
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
+</manifest>

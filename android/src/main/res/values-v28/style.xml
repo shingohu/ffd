@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="FsdFullLaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">#00000000</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <!--刘海屏全屏适配-->
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+</resources>
