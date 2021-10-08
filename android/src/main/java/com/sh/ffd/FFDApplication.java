@@ -9,7 +9,7 @@ import com.sh.ffd.lifecycler.SimpleActivityLifecycleCallbacks;
 import io.flutter.app.FlutterApplication;
 
 
-public class FsdApplication extends FlutterApplication {
+public class FFDApplication extends FlutterApplication {
 
     @Override
     public void onCreate() {

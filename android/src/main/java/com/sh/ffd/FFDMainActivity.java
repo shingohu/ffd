@@ -6,7 +6,7 @@ import io.flutter.embedding.android.FlutterActivity;
 
 
 
-public class FfdMainActivity extends FlutterActivity {
+public class FFDMainActivity extends FlutterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

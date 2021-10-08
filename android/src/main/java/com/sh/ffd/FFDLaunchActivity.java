@@ -3,7 +3,7 @@ package com.sh.ffd;
 import android.app.Activity;
 import android.os.Bundle;
 
-public abstract class FsdLaunchActivity extends Activity {
+public abstract class FFDLaunchActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
