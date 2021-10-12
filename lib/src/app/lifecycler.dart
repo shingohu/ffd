@@ -10,7 +10,7 @@ import 'package:flutter/widgets.dart';
 final RouteObserver<ModalRoute<void>> ffdRouteObserver = RouteObserver<ModalRoute<void>>();
 
 abstract class IPageLifecycle {
-  final bool _printLog = false;
+  static const bool _printLog = false;
 
   //页面级别的
   void onDispose(BuildContext context) {

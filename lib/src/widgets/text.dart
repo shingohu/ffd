@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class StText extends StatelessWidget {
   final Color? color;
-  final String text;
+  final String? text;
   final double? fontSize;
   final FontWeight? fontWeight;
   final int? maxLines;
@@ -50,7 +50,7 @@ class StText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text ?? "",
       softWrap: this.softWrap,
       textAlign: textAlign,
       style: TextStyle(

@@ -6,6 +6,10 @@ import 'package:provider/provider.dart';
 import 'vm.dart';
 
 abstract class SVMWidget<T extends ViewModel> extends StatelessWidget with IPageLifecycle, LoadingMixin {
+
+  const SVMWidget({ Key? key }) : super(key: key);
+
+
   T createModel(BuildContext context);
 
   T create(BuildContext context) {
@@ -21,15 +25,13 @@ abstract class SVMWidget<T extends ViewModel> extends StatelessWidget with IPage
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: ViewModelWidget<T>(
-        create: create,
-        builder: builder,
-        onCreate: onCreate,
-        onResume: onResume,
-        onDispose: onDispose,
-        onPause: onPause,
-      ),
+    return ViewModelWidget<T>(
+      create: create,
+      builder: builder,
+      onCreate: onCreate,
+      onResume: onResume,
+      onDispose: onDispose,
+      onPause: onPause,
     );
   }
 }

@@ -54,6 +54,9 @@ class DioHttp extends Http {
         if (config.onHttpResponseInterceptor != null) {
           ///是否拦截
           bool pass = config.onHttpResponseInterceptor!(response.statusCode, response.data);
+          if (pass) {
+            return handler.resolve(response);
+          }
         }
         return handler.next(response);
       }));

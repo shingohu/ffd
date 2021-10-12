@@ -15,6 +15,38 @@ class BaseModel {
   }
 }
 
+class HttpResponseName {
+  ///返回数据中code的名称
+  static String codeName = "code";
+
+  ///返回数据中成功的code的值
+  static int successCodeValue = 200;
+
+  ///返回数据中data的名称
+  static String dataName = "data";
+
+  ///返回数据中message的名称
+  static String messageName = "message";
+
+  static initHttpResponseName({String? codeName, String? dataName, String? messageName, int? successCodeValue}) {
+    if (codeName != null) {
+      HttpResponseName.codeName = codeName;
+    }
+
+    if (dataName != null) {
+      HttpResponseName.dataName = dataName;
+    }
+
+    if (messageName != null) {
+      HttpResponseName.messageName = messageName;
+    }
+
+    if (successCodeValue != null) {
+      HttpResponseName.successCodeValue = successCodeValue;
+    }
+  }
+}
+
 class HttpResponse {
   bool success = false;
   dynamic data;
@@ -32,20 +64,20 @@ class HttpResponse {
     this.statusCode = statusCode;
     this.originData = data;
     if (data is Map<String, dynamic>) {
-      dynamic _code = data['code'];
+      dynamic _code = data[HttpResponseName.codeName];
       if (_code is String) {
         this.code = int.tryParse(_code);
       } else {
         this.code = _code;
       }
-      if (this.code == 200) {
+      if (this.code == HttpResponseName.successCodeValue) {
         this.success = true;
-        this.data = data['data'];
+        this.data = data[HttpResponseName.dataName];
       } else {
         ///业务不正常
         this.success = false;
       }
-      this.msg = data['message'] ?? data["msg"];
+      this.msg = data[HttpResponseName.messageName];
     }
   }
 

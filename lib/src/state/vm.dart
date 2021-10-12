@@ -5,6 +5,19 @@ import 'state.dart';
 typedef LoadingListener = void Function(bool show);
 typedef ToastListener = void Function(String msg);
 
+class Validation {
+  bool pass = false;
+  dynamic tip;
+
+  Validation.pass() {
+    pass = true;
+  }
+
+  Validation.unPass(this.tip) {
+    pass = false;
+  }
+}
+
 class ViewModel extends ChangeNotifier {
   /// 防止页面销毁后,异步任务才完成,导致报错
   bool _disposed = false;
