@@ -18,7 +18,7 @@ class CustomLogInterceptor extends Interceptor {
   /// Print request header [Options.headers]
   bool requestHeader;
 
-  /// Print request data [Options.data]
+  /// Print request data [Options.body]
   bool requestBody;
 
   /// Print [Response.data]

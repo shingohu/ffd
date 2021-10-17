@@ -1,85 +1,27 @@
-class BaseModel {
-  int code;
-  String msg;
-  dynamic data;
-
-  BaseModel(this.code, this.msg, this.data);
-
-  @override
-  String toString() {
-    return {
-      "code": code,
-      "msg": msg,
-      "data": data,
-    }.toString();
-  }
-}
-
-class HttpResponseName {
-  ///返回数据中code的名称
-  static String codeName = "code";
-
-  ///返回数据中成功的code的值
-  static int successCodeValue = 200;
-
-  ///返回数据中data的名称
-  static String dataName = "data";
-
-  ///返回数据中message的名称
-  static String messageName = "message";
-
-  static initHttpResponseName({String? codeName, String? dataName, String? messageName, int? successCodeValue}) {
-    if (codeName != null) {
-      HttpResponseName.codeName = codeName;
-    }
-
-    if (dataName != null) {
-      HttpResponseName.dataName = dataName;
-    }
-
-    if (messageName != null) {
-      HttpResponseName.messageName = messageName;
-    }
-
-    if (successCodeValue != null) {
-      HttpResponseName.successCodeValue = successCodeValue;
-    }
-  }
-}
-
 class HttpResponse {
   bool success = false;
-  dynamic data;
-  dynamic originData;
-  int? code;
-  String? msg;
 
+  /// Response body. may have been transformed, please refer to [ResponseType].
+  dynamic body;
+
+  /// Http status code.
   int? statusCode;
+
+  /// Returns the reason phrase associated with the status code.
+  /// The reason phrase must be set before the body is written
+  /// to. Setting the reason phrase after writing to the body.
+  String? statusMessage;
+
+  ///请求路径
+  String? path;
+
+  String msg = "";
   bool isNetError = false;
   bool isServerError = false;
   bool isRequestError = false;
   bool isCancelError = false;
 
-  HttpResponse.success(dynamic data, {int? statusCode}) {
-    this.statusCode = statusCode;
-    this.originData = data;
-    if (data is Map<String, dynamic>) {
-      dynamic _code = data[HttpResponseName.codeName];
-      if (_code is String) {
-        this.code = int.tryParse(_code);
-      } else {
-        this.code = _code;
-      }
-      if (this.code == HttpResponseName.successCodeValue) {
-        this.success = true;
-        this.data = data[HttpResponseName.dataName];
-      } else {
-        ///业务不正常
-        this.success = false;
-      }
-      this.msg = data[HttpResponseName.messageName];
-    }
-  }
+  HttpResponse.success({this.body, this.statusCode, this.statusMessage, this.path, this.success = true});
 
   ///网络异常
   HttpResponse.netError() {
@@ -113,21 +55,5 @@ class HttpResponse {
     this.msg = msg;
   }
 
-  bool get isEmpty {
-    if (data == null) {
-      return true;
-    }
-    if (data is List) {
-      return data.length == 0;
-    } else {
-      return true;
-    }
-  }
 
-  T? entity<T>({required T fromJson(data)}) {
-    if (data == null) {
-      return null;
-    }
-    return fromJson(data);
-  }
 }

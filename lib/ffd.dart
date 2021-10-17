@@ -20,6 +20,7 @@ export 'src/app/navigator.dart';
 export 'src/app/router.dart';
 export 'src/http/config.dart';
 export 'src/http/http.dart';
+export 'src/http/dio/dio_http.dart';
 export 'src/http/model.dart';
 export 'src/http/util.dart';
 export 'src/state/state.dart';

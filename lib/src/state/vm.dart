@@ -128,16 +128,7 @@ class DataViewModel extends ViewModel {
   int page = 1;
 
   ViewState _viewState = ViewState.idle;
-
-  bool get loading => _viewState == ViewState.loading;
-
-  bool get idle => _viewState == ViewState.idle;
-
-  bool get empty => _viewState == ViewState.empty;
-
-  bool get error => _viewState == ViewState.error;
-
-  bool get data => _viewState == ViewState.data;
+  
 
   ViewState get viewState => _viewState;
 

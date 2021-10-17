@@ -1,53 +1,31 @@
-import 'package:ffd/src/http/dio/dio_http.dart';
+import 'package:ffd/ffd.dart';
 
-import 'config.dart';
 import 'http.dart';
-import 'model.dart';
 
+///这里考虑到多个模块单独配置 不进行单例化操作
+///其实项目中其它部分单例化的东西也应该优化下
 class HttpUtil implements Http {
   late Http http;
 
-  static HttpUtil? _instance;
+  HttpUtil(this.http);
 
-  static HttpUtil get instance => _getInstance();
-
-  factory HttpUtil() => _getInstance();
-
-  static HttpUtil _getInstance() {
-    if (_instance == null) {
-      _instance = HttpUtil._();
-    }
-    return _instance!;
-  }
-
-  HttpUtil._();
-
-  void initHttp({Http? httpImpl, HttpConfig? config}) {
-    if (config != null && httpImpl == null) {
-      ///默认实现
-      this.http = DioHttp(config);
-    } else if (httpImpl != null) {
-      this.http = httpImpl;
-    }
+  @override
+  Future<HttpResponse> get(String path, {params, bool showLog = false, HttpResponse Function(HttpResponse response)? convert}) {
+    return http.get(path, params: params, showLog: showLog, convert: convert);
   }
 
   @override
-  Future<HttpResponse> delete(String path, {params, bool showLog = false}) {
-    return http.delete(path, params: params, showLog: showLog);
+  Future<HttpResponse> post(String path, {params, bool showLog = false, HttpResponse Function(HttpResponse response)? convert}) {
+    return http.post(path, params: params, showLog: showLog, convert: convert);
   }
 
   @override
-  Future<HttpResponse> get(String path, {params, bool showLog = false}) {
-    return http.get(path, params: params, showLog: showLog);
+  Future<HttpResponse> put(String path, {params, bool showLog = false, HttpResponse Function(HttpResponse response)? convert}) {
+    return http.put(path, params: params, showLog: showLog, convert: convert);
   }
 
   @override
-  Future<HttpResponse> post(String path, {params, bool showLog = false}) {
-    return http.post(path, params: params, showLog: showLog);
-  }
-
-  @override
-  Future<HttpResponse> put(String path, {params, bool showLog = false}) {
-    return http.put(path, params: params, showLog: showLog);
+  Future<HttpResponse> delete(String path, {params, bool showLog = false, HttpResponse Function(HttpResponse response)? convert}) {
+    return http.delete(path, params: params, showLog: showLog, convert: convert);
   }
 }

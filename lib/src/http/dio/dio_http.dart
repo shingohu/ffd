@@ -11,14 +11,14 @@ import '../http.dart';
 import '../model.dart';
 import 'dio_log.dart';
 
-class DioHttp extends Http {
+class DioHttp implements Http {
   late Dio _dio;
 
   ///日志拦截
   late Interceptor _logInterceptor;
 
   ///用于解析数据回调
-  OnParseHttpResponseCallback? _onParseHttpResponseCallback;
+  HttpResponseConvert? _httpResponseConvert;
 
   DioHttp(HttpConfig config) {
     _initDio(config);
@@ -45,15 +45,15 @@ class DioHttp extends Http {
     };
     _dio.interceptors
       ..add(InterceptorsWrapper(onRequest: (options, handler) {
-        if (config.onHttpHeaderCallback != null) {
-          Map<String, dynamic> headers = config.onHttpHeaderCallback!() ?? {};
+        if (config.httpHeaderCallback != null) {
+          Map<String, dynamic> headers = config.httpHeaderCallback!() ?? {};
           options.headers.addAll(headers);
         }
         return handler.next(options);
       }, onResponse: (response, handler) {
-        if (config.onHttpResponseInterceptor != null) {
+        if (config.httpResponseInterceptor != null) {
           ///是否拦截
-          bool pass = config.onHttpResponseInterceptor!(response.statusCode, response.data);
+          bool pass = config.httpResponseInterceptor!(response.statusCode, response.data, path: response.requestOptions.path);
           if (pass) {
             return handler.resolve(response);
           }
@@ -61,9 +61,9 @@ class DioHttp extends Http {
         return handler.next(response);
       }));
 
-    _logInterceptor = CustomLogInterceptor(logPrint: _ffdPrint, responseBody: true);
+    _logInterceptor = CustomLogInterceptor(logPrint: _ffdPrint,responseLog: true, responseBody: true,request: true);
 
-    _onParseHttpResponseCallback = config.onParseHttpResponseCallback;
+    _httpResponseConvert = config.httpResponseConvert;
   }
 
   _ffdPrint(dynamic msg) {
@@ -73,21 +73,27 @@ class DioHttp extends Http {
   }
 
   @override
-  Future<HttpResponse> delete(String path, {params, bool showLog = false}) async {
+  Future<HttpResponse> delete(String path, {params, bool showLog = false, HttpResponse Function(HttpResponse response)? convert}) async {
     try {
       showLogInterceptor(showLog);
       final response = await _dio.delete<Map<String, dynamic>>(path, queryParameters: params);
-      if (_onParseHttpResponseCallback != null) {
-        return _onParseHttpResponseCallback!(response.statusCode, response.data);
+
+      HttpResponse httpResponse = HttpResponse.success(body: response.data, statusCode: response.statusCode, statusMessage: response.statusMessage, path: path);
+
+      if (convert != null) {
+        return convert.call(httpResponse);
       }
-      return HttpResponse.success(response.data, statusCode: response.statusCode);
+      if (_httpResponseConvert != null) {
+        return _httpResponseConvert!(httpResponse);
+      }
+      return httpResponse;
     } catch (e) {
       return _handlerError(e);
     }
   }
 
   @override
-  Future<HttpResponse> get(String path, {params, bool showLog = false}) async {
+  Future<HttpResponse> get(String path, {params, bool showLog = false, HttpResponse Function(HttpResponse response)? convert}) async {
     try {
       showLogInterceptor(showLog);
       Response response;
@@ -101,38 +107,54 @@ class DioHttp extends Http {
       } else {
         response = await _dio.get<Map<String, dynamic>>(path, queryParameters: params);
       }
-      if (_onParseHttpResponseCallback != null) {
-        return _onParseHttpResponseCallback!(response.statusCode, response.data);
+
+      HttpResponse httpResponse = HttpResponse.success(body: response.data, statusCode: response.statusCode, statusMessage: response.statusMessage, path: path);
+
+      if (convert != null) {
+        return convert.call(httpResponse);
       }
-      return HttpResponse.success(response.data, statusCode: response.statusCode);
+      if (_httpResponseConvert != null) {
+        return _httpResponseConvert!(httpResponse);
+      }
+      return httpResponse;
     } catch (e) {
       return _handlerError(e);
     }
   }
 
   @override
-  Future<HttpResponse> post(String path, {params, bool showLog = false}) async {
+  Future<HttpResponse> post(String path, {params, bool showLog = false, HttpResponse Function(HttpResponse response)? convert}) async {
     try {
       showLogInterceptor(showLog);
       final response = await _dio.post<Map<String, dynamic>>(path, data: params);
-      if (_onParseHttpResponseCallback != null) {
-        return _onParseHttpResponseCallback!(response.statusCode, response.data);
+      HttpResponse httpResponse = HttpResponse.success(body: response.data, statusCode: response.statusCode, statusMessage: response.statusMessage, path: path);
+
+      if (convert != null) {
+        return convert.call(httpResponse);
       }
-      return HttpResponse.success(response.data, statusCode: response.statusCode);
+      if (_httpResponseConvert != null) {
+        return _httpResponseConvert!(httpResponse);
+      }
+      return httpResponse;
     } catch (e) {
       return _handlerError(e);
     }
   }
 
   @override
-  Future<HttpResponse> put(String path, {params, bool showLog = false}) async {
+  Future<HttpResponse> put(String path, {params, bool showLog = false, HttpResponse Function(HttpResponse response)? convert}) async {
     try {
       showLogInterceptor(showLog);
       final response = await _dio.put<Map<String, dynamic>>(path, queryParameters: params);
-      if (_onParseHttpResponseCallback != null) {
-        return _onParseHttpResponseCallback!(response.statusCode, response.data);
+      HttpResponse httpResponse = HttpResponse.success(body: response.data, statusCode: response.statusCode, statusMessage: response.statusMessage, path: path);
+
+      if (convert != null) {
+        return convert.call(httpResponse);
       }
-      return HttpResponse.success(response.data, statusCode: response.statusCode);
+      if (_httpResponseConvert != null) {
+        return _httpResponseConvert!(httpResponse);
+      }
+      return httpResponse;
     } catch (e) {
       return _handlerError(e);
     }
