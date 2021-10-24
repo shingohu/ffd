@@ -59,6 +59,11 @@ class NavigatorManager {
     return _mNavigatorState!.pushNamedAndRemoveUntil(newRouteName, predicate);
   }
 
+  
+  static void pop<T extends Object?>([ T? result ]){
+    _mNavigatorState!.pop(result);
+  }
+
   ///移出路由
   static void removeRoute(Route<dynamic> route) {
     assert(_mNavigatorState != null, "navigator state must not be null");

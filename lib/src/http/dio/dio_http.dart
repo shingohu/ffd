@@ -61,7 +61,7 @@ class DioHttp implements Http {
         return handler.next(response);
       }));
 
-    _logInterceptor = CustomLogInterceptor(logPrint: _ffdPrint,responseLog: true, responseBody: true,request: true);
+    _logInterceptor = CustomLogInterceptor(logPrint: _ffdPrint,responseLog: true, responseBody: true,request: true,requestHeader:true);
 
     _httpResponseConvert = config.httpResponseConvert;
   }
