@@ -38,3 +38,4 @@ export 'src/widgets/text.dart';
 export 'src/widgets/tree_view.dart';
 export 'src/widgets/wrap_ext.dart';
 export 'src/widgets/bottom_sheet_widget.dart';
+export 'src/widgets/update/update_dialog.dart';

@@ -67,7 +67,12 @@ class ViewModel extends ChangeNotifier {
     }
   }
 
-  set showToast(String toast) {
+  set showToast(String? toast) {
+    if (toast == null || toast
+        .trim()
+        .isEmpty) {
+      return;
+    }
     if (!_disposed) {
       _toast = toast;
       if (_showToastNotifier?.hasListeners == true) {
@@ -121,15 +126,9 @@ class ViewModel extends ChangeNotifier {
 }
 
 class DataViewModel extends ViewModel {
-  ///默认pageSize = 10
-  int pageSize = 10;
-
-  ///默认初始page页为1
-  int page = 1;
-
-  ViewState _viewState = ViewState.idle;
   
 
+  ViewState _viewState = ViewState.idle;
   ViewState get viewState => _viewState;
 
   set viewState(ViewState viewState) {

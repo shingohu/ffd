@@ -54,14 +54,31 @@ class DioHttp implements Http {
         if (config.httpResponseInterceptor != null) {
           ///是否拦截
           bool pass = config.httpResponseInterceptor!(response.statusCode, response.data, path: response.requestOptions.path);
-          if (pass) {
-            return handler.resolve(response);
+          if (pass == true) {
+           // return handler.resolve(response);
           }
         }
         return handler.next(response);
-      }));
+      }, onError: (error, handler) {
+        if (error.response != null) {
+          if (config.httpResponseInterceptor != null) {
+            Response<dynamic> response  = error.response!;
+            ///是否拦截
+            bool pass = config.httpResponseInterceptor!(response.statusCode, response.data, path: response.requestOptions.path);
+            if (pass == true) {
+             // return handler.resolve(response);
+            }
+          }
+        }
+        return handler.next(error);
+      }
+      ));
 
-    _logInterceptor = CustomLogInterceptor(logPrint: _ffdPrint,responseLog: true, responseBody: true,request: true,requestHeader:true);
+    _logInterceptor = CustomLogInterceptor(logPrint: _ffdPrint,
+        responseLog: true,
+        responseBody: true,
+        request: true,
+        requestHeader: true);
 
     _httpResponseConvert = config.httpResponseConvert;
   }

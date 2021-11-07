@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart' as pr;
 
+import 'bezier_indicator.dart';
+
 typedef OnRefresh = Future<dynamic> Function();
 typedef OnLoading = Future<dynamic> Function();
 
@@ -19,7 +21,7 @@ class RefreshView extends StatefulWidget {
       this.onRefresh,
       this.onLoading,
       this.hasMore = false,
-      this.noMoreText = "",
+      this.noMoreText ,
       this.header});
 
   @override
@@ -64,7 +66,9 @@ class _RefreshViewState extends State<RefreshView> {
       footerTriggerDistance: 500,
       enableBallisticLoad: true,
       headerBuilder: () {
-        return header ?? pr.BezierCircleHeader();
+        return header ?? BezierCircleHeader(
+          dismissType: BezierDismissType.ScaleToCenter,
+        );
       },
       footerBuilder: () {
         return pr.CustomFooter(
@@ -115,3 +119,10 @@ class _RefreshViewState extends State<RefreshView> {
     );
   }
 }
+
+
+
+
+
+
+
