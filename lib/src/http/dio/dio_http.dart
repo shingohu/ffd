@@ -179,6 +179,7 @@ class DioHttp implements Http {
 
   HttpResponse _handlerError(e) {
     late HttpResponse response;
+    _ffdPrint(e);
     if (e is DioError) {
       if (!CancelToken.isCancel(e)) {
         bool netError = e.error is SocketException;

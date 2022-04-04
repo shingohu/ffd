@@ -53,15 +53,9 @@ class LoadingManager {
                 });
           });
       if (context == null) {
-        NavigatorManager.push(_route!).whenComplete(() {
-          _isLoading = false;
-          _route = null;
-        });
+        NavigatorManager.push(_route!);
       } else {
-        Navigator.of(context).push(_route!).whenComplete(() {
-          _isLoading = false;
-          _route = null;
-        });
+        Navigator.of(context).push(_route!);
       }
     }
   }
