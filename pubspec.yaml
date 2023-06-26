@@ -24,7 +24,7 @@ dependencies:
   #加密算法 https://pub.flutter-io.cn/packages/crypto
   crypto: 3.0.1
   #路径获取 https://pub.flutter-io.cn/packages/path_provider
-  path_provider: 2.0.5
+  path_provider: 2.0.8
   #encoders and decoders  https://pub.flutter-io.cn/packages/convert
   convert: 3.0.1
   #下拉刷新 https://pub.flutter-io.cn/packages/pull_to_refresh
